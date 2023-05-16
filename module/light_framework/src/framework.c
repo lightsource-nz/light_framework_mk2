@@ -99,9 +99,10 @@ void light_framework_load_application(struct light_application *app)
         if(!framework_loading)
                 light_fatal("attempted to load an application before calling light_framework_init()","");
         // TODO verify at build-time that we support the runtime version requested by this app
-        light_info("Loading application '%s': app version %s, framework version %s",
+        light_info("loading application '%s': app version %s, framework version %s",
                                         light_application_get_name(app),"NULL","NULL");
         light_framework_load_module(light_application_get_main_module(app));
+        light_info("application '%s' loaded successfully", light_application_get_name(app));
 }
 // TODO overhaul arraylist API to make it suck less
 void light_framework_load_module(struct light_module *mod)
