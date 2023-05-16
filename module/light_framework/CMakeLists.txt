@@ -22,7 +22,7 @@ target_sources(
 target_link_libraries(
     light_framework INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/objects.${PICO_PLATFORM}.ld
-    light_util
+    light_common
     light_object
 )
 

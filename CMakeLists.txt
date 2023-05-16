@@ -8,7 +8,7 @@ pico_sdk_init()
 # libraries
 add_subdirectory(lib/light_object)
 add_subdirectory(lib/light_message)
-add_subdirectory(lib/light_util)
+add_subdirectory(lib/light_common)
 
 # modules
 add_subdirectory(module/light_framework)

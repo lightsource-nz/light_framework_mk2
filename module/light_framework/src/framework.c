@@ -7,26 +7,31 @@
 
 #define MODULE_ID_LIGHT_FRAMEWORK "mod_light_framework"
 
-const struct light_module *static_modules[LF_STATIC_MODULES_MAX];
 extern int __light_modules_start, __light_modules_end;
 
-static void _static_module_load(const struct light_module *module)
+static struct light_module **static_modules;
+static uint64_t static_module_count;
+
+static uint8_t available_module_count;
+static const struct light_module *available_modules[LF_STATIC_MODULES_MAX];
+
+static void _find_static_modules()
 {
-        
+        static_modules = (struct light_module **) &__light_modules_start;
+        static_module_count = (((uint64_t)&__light_modules_end) - ((uint64_t)&__light_modules_start)) / sizeof(void *);
+        light_debug("located %d static modules", static_module_count);
 }
-static void _load_static_modules()
-{
+/*
         uint8_t load_count = 0;
         const struct light_module *next_module = (const struct light_module *) &__light_modules_start;
         while (next_module < (const struct light_module *) &__light_modules_end)
         {
-                _static_module_load(next_module);
-                load_count++;
-                next_module++;
+                available_modules[load_count++] = next_module++;
         }
-        light_debug("preloaded %d device classes", load_count);
+        available_module_count = load_count;
+        light_debug("preloaded %d static modules", load_count);
 
-}
+} */
 static void _module_release(struct light_object *obj)
 {
         light_free(to_module(obj));
@@ -65,16 +70,26 @@ static void _module_event(struct light_module *module, uint8_t event)
 }
 Light_Module_Define(light_framework,NULL,_module_event);
 
+// framework internal state variables
 static uint8_t framework_loading = 0;
 static struct light_application *root_application = NULL;
+static uint8_t mods_loading_count = 0;
+static uint8_t mods_active_count = 0;
+static struct light_module *mods_loading[LF_STATIC_MODULES_MAX];
+static struct light_module *mods_active[LF_STATIC_MODULES_MAX];
 
 void light_framework_init()
 {
+        light_common_init();
         light_info("Loading Light Framework runtime v%s...", LF_VERSION_STR);
         light_info("LIGHT_RUN_MODE=%s, LIGHT_MAX_LOG_LEVEL=%s",
                                         light_run_mode_to_string(LIGHT_RUN_MODE),
                                         light_log_level_to_string(LIGHT_MAX_LOG_LEVEL));
+
+        light_object_setup();
         framework_loading = 1;
+        _find_static_modules();
+
         root_application = this_app;
         light_framework_load_application(root_application);
 }
@@ -86,5 +101,26 @@ void light_framework_load_application(struct light_application *app)
         // TODO verify at build-time that we support the runtime version requested by this app
         light_info("Loading application '%s': app version %s, framework version %s",
                                         light_application_get_name(app),"NULL","NULL");
-        
+        light_framework_load_module(light_application_get_main_module(app));
+}
+// TODO overhaul arraylist API to make it suck less
+void light_framework_load_module(struct light_module *mod)
+{
+        light_debug("begin loading module %s", light_module_get_name(mod));
+        light_arraylist_append(&mods_loading, &mods_loading_count, mod);
+
+        // make sure all dependency modules are loaded before activating
+        for(uint8_t i = 0; mod->module_deps[i] != NULL; i++) {
+                if(light_arraylist_indexof(&mods_loading, mods_loading_count, mod->module_deps[i]) == -1) {
+                        light_framework_load_module(mod->module_deps[i]);
+                }
+        }
+        // send LOAD event; module is activated once it returns
+        light_module_send_event(mod, LF_EVENT_LOAD);
+        light_arraylist_append(&mods_active, &mods_active_count, mod);
+        light_debug("module %s loaded successfully", light_module_get_name(mod));
+}
+struct light_application *light_framework_get_root_application()
+{
+        return root_application;
 }
