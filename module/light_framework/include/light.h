@@ -9,6 +9,8 @@
 // TODO implement version fields properly
 #define LF_VERSION_STR                  "0.1.0"
 
+#define LF_INFO_STR                     "Light Framework v" LF_VERSION_STR ", " LIGHT_BUILD_STRING
+
 #define LF_EVENT_LOAD                   0
 #define LF_EVENT_UNLOAD                 1
 

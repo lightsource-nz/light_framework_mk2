@@ -7,8 +7,9 @@
                 "long": "Include debug information",
                 "buildType": "Debug",
                 "settings": {
-                    "PICO_PLATFORM": "rp2040",
-                    "LIGHT_RUN_MODE": "DEBUG"
+                    "LIGHT_RUN_MODE": "DEBUG",
+                    "LIGHT_SYSTEM": "PICO_SDK",
+                    "LIGHT_PLATFORM": "TARGET"
                 }
             },
             "debug-host": {
@@ -16,8 +17,9 @@
                 "long": "Include debug information",
                 "buildType": "Debug",
                 "settings": {
-                    "PICO_PLATFORM": "host",
-                    "LIGHT_RUN_MODE": "DEBUG"
+                    "LIGHT_RUN_MODE": "DEBUG",
+                    "LIGHT_SYSTEM": "PICO_SDK",
+                    "LIGHT_PLATFORM": "HOST"
                 }
             },
             "trace-host": {

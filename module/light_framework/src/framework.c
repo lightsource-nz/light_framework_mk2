@@ -81,10 +81,8 @@ static struct light_module *mods_active[LF_STATIC_MODULES_MAX];
 void light_framework_init()
 {
         light_common_init();
-        light_info("Loading Light Framework runtime v%s...", LF_VERSION_STR);
-        light_info("LIGHT_RUN_MODE=%s, LIGHT_MAX_LOG_LEVEL=%s",
-                                        light_run_mode_to_string(LIGHT_RUN_MODE),
-                                        light_log_level_to_string(LIGHT_MAX_LOG_LEVEL));
+        light_info("Loading Light Framework runtime...", "");
+        light_info("%s", LF_INFO_STR);
 
         light_object_setup();
         framework_loading = 1;

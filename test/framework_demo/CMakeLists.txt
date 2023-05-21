@@ -11,8 +11,7 @@ target_link_libraries(
 
 light_framework_application_module(framework_demo)
 
-if(NOT PICO_NO_HARDWARE)
+if(LIGHT_SYSTEM STREQUAL PICO_SDK AND NOT PICO_NO_HARDWARE)
         pico_enable_stdio_semihosting(framework_demo 1)
         target_link_libraries(framework_demo PUBLIC pico_stdlib)
 endif()
-pico_add_extra_outputs(framework_demo)
