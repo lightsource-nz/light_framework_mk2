@@ -49,15 +49,15 @@ struct lobj_type ltype_light_application = {
         .release = _application_release
 };
 
-static void _event_load(struct light_module *module)
+static void _event_load(const struct light_module *module)
 {
         
 }
-static void _event_unload(struct light_module *module)
+static void _event_unload(const struct light_module *module)
 {
         
 }
-static void _module_event(struct light_module *module, uint8_t event)
+static void _module_event(const struct light_module *module, uint8_t event)
 {
         switch(event) {
         case LF_EVENT_LOAD:
@@ -68,7 +68,7 @@ static void _module_event(struct light_module *module, uint8_t event)
                 break;
         }
 }
-Light_Module_Define(light_framework,NULL,_module_event);
+Light_Module_Define(light_framework,_module_event,);
 
 // framework internal state variables
 static uint8_t framework_loading = 0;
@@ -103,7 +103,7 @@ void light_framework_load_application(struct light_application *app)
         light_info("application '%s' loaded successfully", light_application_get_name(app));
 }
 // TODO overhaul arraylist API to make it suck less
-void light_framework_load_module(struct light_module *mod)
+void light_framework_load_module(const struct light_module *mod)
 {
         light_debug("begin loading module %s", light_module_get_name(mod));
         light_arraylist_append(&mods_loading, &mods_loading_count, mod);

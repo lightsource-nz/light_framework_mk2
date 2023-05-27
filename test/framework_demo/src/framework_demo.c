@@ -1,8 +1,8 @@
 #include <light.h>
 
-static void framework_demo_app_event(struct light_module *mod, uint8_t event);
+static void framework_demo_app_event(const struct light_module *mod, uint8_t event);
 
-Light_Application_Define(framework_demo, &light_framework, framework_demo_app_event);
+Light_Application_Define(framework_demo, framework_demo_app_event, &light_framework);
 
 void main()
 {
@@ -11,7 +11,7 @@ void main()
         __breakpoint();
 }
 
-static void framework_demo_app_event(struct light_module *mod, uint8_t event)
+static void framework_demo_app_event(const struct light_module *mod, uint8_t event)
 {
         switch (event) {
         case LF_EVENT_LOAD:
