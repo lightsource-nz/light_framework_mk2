@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
+include(${CMAKE_CURRENT_LIST_DIR}/external/light_preinit.cmake)
 
 project(light_framework_mk2 C CXX ASM)
 
