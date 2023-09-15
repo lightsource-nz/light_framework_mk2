@@ -14,7 +14,7 @@
 extern int __light_modules_start, __light_modules_end;
 
 static struct light_module **static_modules;
-static uint64_t static_module_count;
+static uintptr_t static_module_count;
 
 static uint8_t available_module_count;
 static const struct light_module *available_modules[LF_STATIC_MODULES_MAX];
@@ -31,7 +31,7 @@ static struct light_periodic app_tasks[LF_TASKS_MAX];
 static void _find_static_modules()
 {
         static_modules = (struct light_module **) &__light_modules_start;
-        static_module_count = (((uint64_t)&__light_modules_end) - ((uint64_t)&__light_modules_start)) / sizeof(void *);
+        static_module_count = (((uintptr_t)&__light_modules_end) - ((uintptr_t)&__light_modules_start)) / sizeof(void *);
         light_debug("located %d static modules", static_module_count);
 }
 /*
