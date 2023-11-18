@@ -1,8 +1,9 @@
 #include <light.h>
 
 static void framework_demo_app_event(const struct light_module *mod, uint8_t event);
+static uint8_t framework_demo_main(struct light_application *app);
 
-Light_Application_Define(framework_demo, framework_demo_app_event, &light_framework);
+Light_Application_Define(framework_demo, framework_demo_app_event, framework_demo_main, &light_framework);
 
 void main()
 {
@@ -21,4 +22,9 @@ static void framework_demo_app_event(const struct light_module *mod, uint8_t eve
                 light_info("demo app received UNLOAD event","");
                 break;
         }
+}
+
+static uint8_t framework_demo_main(struct light_application *app)
+{
+        return LF_STATUS_SHUTDOWN;
 }

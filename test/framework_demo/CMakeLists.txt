@@ -5,7 +5,7 @@ target_sources(framework_demo PUBLIC ${CMAKE_CURRENT_LIST_DIR}/src/framework_dem
 
 target_link_libraries(
     framework_demo PUBLIC
-    pico_platform
+    light_platform
     light_framework
 )
 

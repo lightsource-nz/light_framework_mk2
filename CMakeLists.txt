@@ -10,6 +10,7 @@ add_subdirectory(lib/light_message)
 
 # modules
 add_subdirectory(module/light_framework)
+add_subdirectory(module/light_platform)
 
 # tests
 add_subdirectory(test/framework_demo)

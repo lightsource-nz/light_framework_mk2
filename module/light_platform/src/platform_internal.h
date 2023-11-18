@@ -1,0 +1,4 @@
+#ifndef _LIGHT_PLATFORM_INTERNAL_H
+#define _LIGHT_PLATFORM_INTERNAL_H
+
+#endif
