@@ -2,13 +2,23 @@
     "buildType": {
         "default": "debug-host",
         "choices": {
-            "debug-rp2040": {
-                "short": "Debug - RP2040",
+            "debug-bluepillplus": {
+                "short": "Debug - Bluepill+",
                 "long": "Include debug information",
                 "buildType": "Debug",
                 "settings": {
                     "LIGHT_RUN_MODE": "DEBUG",
-                    "LIGHT_SYSTEM": "PICO_SDK",
+                    "LIGHT_BOARD": "BLUEPILL_PLUS",
+                    "LIGHT_PLATFORM": "TARGET"
+                }
+            },
+            "debug-rp2040": {
+                "short": "Debug - Pico",
+                "long": "Include debug information",
+                "buildType": "Debug",
+                "settings": {
+                    "LIGHT_RUN_MODE": "DEBUG",
+                    "LIGHT_BOARD": "PICO",
                     "LIGHT_PLATFORM": "TARGET"
                 }
             },
